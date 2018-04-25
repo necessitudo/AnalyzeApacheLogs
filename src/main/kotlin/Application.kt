@@ -6,7 +6,7 @@ class Application: App(){
 
     override fun start(stage: Stage) {
         importStylesheet("/style.css")
-        stage.isResizable = false
+        stage.isResizable = true
         super.start(stage)
     }
 
