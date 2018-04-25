@@ -1,0 +1,9 @@
+.root {
+    -fx-font-size: 13;
+}
+
+#path {
+    -fx-background-color: #fff;
+    -fx-border-color:black;
+
+}
