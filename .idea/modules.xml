@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AnalyzeApacheLogs.iml" filepath="$PROJECT_DIR$/.idea/modules/AnalyzeApacheLogs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AnalyzeApacheLogs_main.iml" filepath="$PROJECT_DIR$/.idea/modules/AnalyzeApacheLogs_main.iml" group="AnalyzeApacheLogs" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AnalyzeApacheLogs_test.iml" filepath="$PROJECT_DIR$/.idea/modules/AnalyzeApacheLogs_test.iml" group="AnalyzeApacheLogs" />
+    </modules>
+  </component>
+</project>
