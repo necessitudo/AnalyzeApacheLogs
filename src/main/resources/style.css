@@ -7,3 +7,7 @@
     -fx-border-color:black;
 
 }
+
+.tree-table-cell.amount {
+     -fx-alignment: center ;
+}

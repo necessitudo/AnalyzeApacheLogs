@@ -1,22 +1,24 @@
-import com.sun.javafx.tools.ant.Callback
-import javafx.beans.property.ReadOnlyStringWrapper
+import javafx.beans.Observable
+import javafx.beans.property.ReadOnlyObjectWrapper
 import javafx.beans.value.ObservableValue
-import javafx.fxml.FXML
 import javafx.scene.control.*
-import javafx.scene.control.cell.TreeItemPropertyValueFactory
 import tornadofx.*
 import javafx.scene.layout.AnchorPane
 import javafx.stage.FileChooser
-import javax.sound.sampled.Line
+import javafx.util.Callback
+import javafx.beans.property.SimpleStringProperty
+
+
 
 class Parsing : View() {
-    override val root: AnchorPane by fxml("Parsing.fxml")
+    override val root: AnchorPane by fxml()
 
     lateinit var path : TextField
     lateinit var chooseFileBtn : Button
     lateinit var runBtn : Button
     lateinit var treeData: TreeTableView<LineTree>
     lateinit var branchColumn: TreeTableColumn<LineTree,String>
+    lateinit var amountColumn: TreeTableColumn<LineTree,String>
 
 
     init {
@@ -42,25 +44,19 @@ class Parsing : View() {
 
     private fun fillTree() {
 
-/*
         var line1 = LineTree("22 mart", "19")
         var rootNode = TreeItem(line1)
 
         var line2 = LineTree("23 mart", "22")
         var line2Node = TreeItem(line2)
 
-        rootNode.children.add(line2Node)*/
+        rootNode.children.add(line2Node)
 
-        //branchColumn.setCellValueFactory {param -> "test"
-       // }
-
-       // val username :TreeTableColumn<LineTree, String> = TreeTableColumn("Username")
-       // username.setCellValueFactory({ param -> param.value.getProperty("test")})
-        //treeData.columns.add(username)
+        branchColumn.setCellValueFactory({ cellData -> SimpleStringProperty(cellData.getValue().getValue().branch) })
+        amountColumn.setCellValueFactory({ cellData -> SimpleStringProperty(cellData.getValue().getValue().amount) })
 
 
-
-        //treeData.root = rootNode
+        treeData.root = rootNode
 
 
     }

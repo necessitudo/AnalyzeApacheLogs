@@ -31,13 +31,13 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
-mainClassName = 'com.apache.analyze.app.MyApp'
+mainClassName = 'Application'
 
 jar {
     manifest {
         attributes(
                 'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'com.apache.analyze.app.MyApp'
+                'Main-Class': 'Application'
         )
     }
     from(configurations.compile.collect { entry -> zipTree(entry) }) {
