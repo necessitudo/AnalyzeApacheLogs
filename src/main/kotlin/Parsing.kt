@@ -10,7 +10,7 @@ import javafx.stage.FileChooser
 import javax.sound.sampled.Line
 
 class Parsing : View() {
-    override val root: AnchorPane by fxml()
+    override val root: AnchorPane by fxml("Parsing.fxml")
 
     lateinit var path : TextField
     lateinit var chooseFileBtn : Button
@@ -42,25 +42,25 @@ class Parsing : View() {
 
     private fun fillTree() {
 
-
+/*
         var line1 = LineTree("22 mart", "19")
         var rootNode = TreeItem(line1)
 
         var line2 = LineTree("23 mart", "22")
         var line2Node = TreeItem(line2)
 
-        rootNode.children.add(line2Node)
+        rootNode.children.add(line2Node)*/
 
         //branchColumn.setCellValueFactory {param -> "test"
        // }
 
-        val username :TreeTableColumn<LineTree, String> = TreeTableColumn("Username")
-        username.setCellValueFactory({ param -> param.value.getProperty("test")})
-        treeData.columns.add(username)
+       // val username :TreeTableColumn<LineTree, String> = TreeTableColumn("Username")
+       // username.setCellValueFactory({ param -> param.value.getProperty("test")})
+        //treeData.columns.add(username)
 
 
 
-        treeData.root = rootNode
+        //treeData.root = rootNode
 
 
     }
