@@ -6,17 +6,16 @@
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="parsing" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="parsing" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Button fx:id="chooseFileBtn" layoutX="279.0" layoutY="16.0" mnemonicParsing="false" text="Choose a file" />
-        <TreeTableView fx:id="treeData" layoutX="15.0" layoutY="50.0" prefHeight="343.0" prefWidth="576.0" AnchorPane.rightAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.bottomAnchor="10"
-        AnchorPane.topAnchor="55">
+        <TreeTableView fx:id="treeData" layoutX="15.0" layoutY="50.0" prefHeight="343.0" prefWidth="576.0" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="55">
             <columns>
-                <TreeTableColumn prefWidth="461.0" text="Branch" />
-                <TreeTableColumn prefWidth="112.0" text="Amount" />
+                <TreeTableColumn id="branchColumn" fx:id="branchColumn" prefWidth="461.0" text="Branch" />
+                <TreeTableColumn id="amountColumn" prefWidth="112.0" text="Amount" />
             </columns>
         </TreeTableView>
-        <Button layoutX="388.0" layoutY="16.0" mnemonicParsing="false" text="Run" />
+        <Button fx:id="runBtn" layoutX="388.0" layoutY="16.0" mnemonicParsing="false" text="Run" />
       <TextField fx:id="path" layoutX="15.0" layoutY="16.0" prefHeight="20.0" prefWidth="257.0" />
     </children>
 </AnchorPane>
