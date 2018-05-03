@@ -20,42 +20,43 @@ fun getRootNode(pathToFile:String):TreeItem<LineTree>{
 
     Files.lines(Paths.get(pathToFile), StandardCharsets.UTF_8).forEach({
 
-        val wordDate = Regex(Patterns.DATE.expression).find(it)
-
-        recoverMainBranch(wordDate, treeData)
-        if (wordDate != null) {
-
-            val year = Regex(Patterns.YEAR.expression).find(wordDate.value)?.value
-            val month = Regex(Patterns.MONTH.expression).find(wordDate.value)?.value
-            val day = Regex(Patterns.DAY.expression).find(wordDate.value)?.value
-
-            if (!treeData.containsKey(year)) treeData.put(year, HashMap<String?, HashMap<String?, ArrayList<String?>>>())
-            val lineYear = treeData.get(year)
-
-            if  (lineYear != null && !lineYear.containsKey(month))  lineYear.put(month, HashMap<String?, ArrayList<String?>>())
-            val lineMonth  = lineYear?.get(month)
-
-            if (lineMonth != null && lineMonth.containsKey(day)) lineMonth.put(day, ArrayList<String?>())
-            val lineDay = lineMonth?.get(day)
+        recoverMainBranch(it, treeData)
 
 
-            println(year)
-
-        }
 
     })
 
     return rootNode
 
 
-
-
 }
 
-fun recoverMainBranch(wordDate:MatchResult?, treeData:HashMap<String?, HashMap<String?, HashMap<String?, ArrayList<String?>>>>) {
+fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<String?, HashMap<String?, ArrayList<String?>>>>) {
+
+    val wordDate = Regex(Patterns.DATE.expression).find(contentStr!!)
+
+    if (wordDate != null) {
+
+        val year = Regex(Patterns.YEAR.expression).find(wordDate.value)?.value
+        val month = Regex(Patterns.MONTH.expression).find(wordDate.value)?.value
+        val day = Regex(Patterns.DAY.expression).find(wordDate.value)?.value
+
+        if (!treeData.containsKey(year)) treeData.put(year, HashMap<String?, HashMap<String?, ArrayList<String?>>>())
+        val lineYear = treeData.get(year)
+
+        if (lineYear != null && !lineYear.containsKey(month)) lineYear.put(month, HashMap<String?, ArrayList<String?>>())
+        val lineMonth = lineYear?.get(month)
+
+        if (lineMonth != null && !lineMonth.containsKey(day)) lineMonth.put(day, ArrayList<String?>())
+        val lineDay = lineMonth?.get(day)
+
+        val collectionContent = contentStr.split("/")
+
+        val action = ""+collectionContent.get(3) +","+collectionContent.get(4)+","+ collectionContent.get(5)
+        lineDay?.add(action)
 
 
-
+    }
 
 }
 
