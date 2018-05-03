@@ -1,5 +1,6 @@
 import javafx.stage.Stage
 import tornadofx.*
+import view.Parsing
 
 class Application: App(){
     override val primaryView = Parsing::class
