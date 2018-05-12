@@ -1,21 +1,14 @@
 package common
 
 import data.LineTree
-import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TreeItem
-import jdk.nashorn.internal.runtime.PropertyMap.newMap
-import sun.rmi.runtime.Log
-import tornadofx.*
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
-import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.*
 
 
 fun getRootNode(pathToFile:String):TreeItem<LineTree>{
-
-    val lineRoot =  LineTree("Overal", null)
-    var rootNode = TreeItem(lineRoot)
 
     val treeData = HashMap<String?, HashMap<String?, HashMap<String?, Any>>>()
 
@@ -27,11 +20,14 @@ fun getRootNode(pathToFile:String):TreeItem<LineTree>{
             println(it)
         }
 
-
     })
 
-    return rootNode
+    val lineRoot =  LineTree("Overal", null)
+    val rootNode = TreeItem(lineRoot)
 
+    for (i in treeData.keys) treeScan(i!!, treeData, rootNode)
+
+    return rootNode
 
 }
 
@@ -83,6 +79,18 @@ fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<St
         }
 
     }
+
+}
+
+fun treeScan(key: String, treeData: HashMap<String?, *>, rootNode: TreeItem<LineTree>){
+
+    val line = LineTree(key, null)
+    val lineNode = TreeItem(line)
+    rootNode.children.add(lineNode)
+
+    val value = treeData.get(key) as HashMap<String?, *>
+
+    for (i in value.keys) treeScan(i!!, value, lineNode)
 
 }
 

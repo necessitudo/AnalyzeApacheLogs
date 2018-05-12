@@ -5,7 +5,4 @@ enum class Patterns(val expression: String) {
     YEAR("[0-9]{4}"),
     MONTH("[A-z]{1}[a-z]+"),
     DAY("[0-9]?[0-9]?")
-
-
-
 }
