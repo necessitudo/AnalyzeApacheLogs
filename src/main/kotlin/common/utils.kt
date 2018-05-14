@@ -6,11 +6,12 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
+import kotlin.collections.HashMap
 
 
 fun getRootNode(pathToFile:String):TreeItem<LineTree>{
 
-    val treeData = HashMap<String?, HashMap<String?, HashMap<String?, Any>>>()
+    val treeData = HashMap<String?, HashMap<String?, TreeMap<Int, Any>>>()
 
     Files.lines(Paths.get(pathToFile), StandardCharsets.UTF_8).forEach({
 
@@ -31,7 +32,7 @@ fun getRootNode(pathToFile:String):TreeItem<LineTree>{
 
 }
 
-fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<String?, HashMap<String?, Any>>>) {
+fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<String?, TreeMap<Int, Any>>>) {
 
     val wordDate = Regex(Patterns.DATE.expression).find(contentStr!!)
 
@@ -39,12 +40,12 @@ fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<St
 
         val year = Regex(Patterns.YEAR.expression).find(wordDate.value)?.value
         val month = Regex(Patterns.MONTH.expression).find(wordDate.value)?.value
-        val day = Regex(Patterns.DAY.expression).find(wordDate.value)?.value
+        val day = Regex(Patterns.DAY.expression).find(wordDate.value)?.value!!.toInt()
 
-        if (!treeData.containsKey(year)) treeData.put(year, HashMap<String?, HashMap<String?,Any>>())
+        if (!treeData.containsKey(year)) treeData.put(year, HashMap<String?, TreeMap<Int,Any>>())
         val lineYear = treeData.get(year)
 
-        if (lineYear != null && !lineYear.containsKey(month)) lineYear.put(month, HashMap<String?, Any>())
+        if (lineYear != null && !lineYear.containsKey(month)) lineYear.put(month, TreeMap<Int, Any>())
         val lineMonth = lineYear?.get(month)
 
         if (lineMonth != null && !lineMonth.containsKey(day)) lineMonth.put(day, HashMap<String?, Any>())
@@ -77,20 +78,25 @@ fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<St
 
             }
         }
-
     }
 
 }
 
-fun treeScan(key: String, treeData: HashMap<String?, *>, rootNode: TreeItem<LineTree>){
+fun treeScan(key: Any, treeData: Map<*, *>, rootNode: TreeItem<LineTree>){
 
-    val line = LineTree(key, null)
+
+    val line = LineTree(if (key is String ) key else key.toString(), null)
     val lineNode = TreeItem(line)
     rootNode.children.add(lineNode)
 
-    val value = treeData.get(key) as HashMap<String?, *>
 
-    for (i in value.keys) treeScan(i!!, value, lineNode)
+    if (treeData.get(key) is HashMap<*,*>) {
+        val value =  treeData.get(key) as HashMap<String?, *>
+        for (i in value.keys) treeScan(i!!, value, lineNode)
+    } else {
+        val value =  treeData.get(key) as TreeMap<Int, *>
+        for (i in value.keys) treeScan(i!!, value, lineNode)
+    }
 
 }
 
