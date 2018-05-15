@@ -23,10 +23,10 @@ fun getRootNode(pathToFile:String):TreeItem<LineTree>{
 
     })
 
-    val lineRoot =  LineTree("Overal", null)
+    val lineRoot =  LineTree("Overal", 0)
     val rootNode = TreeItem(lineRoot)
 
-    for (i in treeData.keys) treeScan(i!!, treeData, rootNode)
+    for (i in treeData.keys) treeScanDown(i!!, treeData, rootNode)
 
     return rootNode
 
@@ -53,7 +53,7 @@ fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<St
 
         val collectionContent = contentStr.split("/")
 
-        if (collectionContent.size>3) {
+        if (collectionContent.size>=6) {
 
             var previousBranch = HashMap<String?, Any>()
 
@@ -82,21 +82,40 @@ fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<St
 
 }
 
-fun treeScan(key: Any, treeData: Map<*, *>, rootNode: TreeItem<LineTree>){
+fun treeScanDown(key: Any, treeData: Map<*, *>, rootNode: TreeItem<LineTree>){
 
 
-    val line = LineTree(if (key is String ) key else key.toString(), null)
+    val line = LineTree(if (key is String ) key else key.toString(), 0)
     val lineNode = TreeItem(line)
     rootNode.children.add(lineNode)
 
+    //На каждой итерации возвращаемся вверх и пересчитываем итоги
 
+    //Спустимся вниз в кроличью нору
     if (treeData.get(key) is HashMap<*,*>) {
         val value =  treeData.get(key) as HashMap<String?, *>
-        for (i in value.keys) treeScan(i!!, value, lineNode)
+        setUpAmountRescan(value,line, rootNode)
+        for (i in value.keys) treeScanDown(i!!, value, lineNode)
     } else {
         val value =  treeData.get(key) as TreeMap<Int, *>
-        for (i in value.keys) treeScan(i!!, value, lineNode)
+        setUpAmountRescan(value,line, rootNode)
+        for (i in value.keys) treeScanDown(i!!, value, lineNode)
     }
 
 }
+
+ fun treeScanUp(rootNode: TreeItem<LineTree>){
+
+     rootNode.value.amount +=1
+
+     if (rootNode.parent!=null) treeScanUp(rootNode.parent)
+ }
+
+fun setUpAmountRescan(value:Map<*,*>, line:LineTree, rootNode: TreeItem<LineTree>){
+    if (value.keys.isEmpty()) {
+        line.amount = 1
+        treeScanUp(rootNode)
+    }
+}
+
 

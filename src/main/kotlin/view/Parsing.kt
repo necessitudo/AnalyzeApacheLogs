@@ -49,7 +49,7 @@ class Parsing : View() {
     fun fillTree() {
 
         branchColumn.setCellValueFactory({ cellData -> SimpleStringProperty(cellData.getValue().getValue().branch) })
-        amountColumn.setCellValueFactory({ cellData -> SimpleStringProperty(cellData.getValue().getValue().amount) })
+        amountColumn.setCellValueFactory({ cellData -> SimpleStringProperty(cellData.getValue().getValue().amount.toString()) })
 
         treeView.root = getRootNode(path.text)
 
