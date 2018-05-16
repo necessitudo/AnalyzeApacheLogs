@@ -18,10 +18,9 @@ class Parsing : View() {
     lateinit var branchColumn: TreeTableColumn<LineTree,String>
     lateinit var amountColumn: TreeTableColumn<LineTree,String>
 
-
     init
     {
-        title = "view.Parsing Apache logs"
+        title = "Parsing Apache logs"
 
         chooseFileBtn.action {
 
@@ -34,15 +33,8 @@ class Parsing : View() {
 
         runBtn.action {
 
-            clearAllBranchsTree()
             fillTree()
         }
-
-        //test
-        path.text = "/Users/olegdubrovin/Yandex.Disk.localized/Загрузки/access.log"
-        fillTree()
-
-
 
     }
 
@@ -56,7 +48,4 @@ class Parsing : View() {
 
     }
 
-    fun clearAllBranchsTree() {
-       // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }
