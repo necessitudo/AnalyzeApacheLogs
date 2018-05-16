@@ -3,10 +3,13 @@ package view
 import common.getRootNode
 import data.LineTree
 import javafx.beans.property.SimpleStringProperty
-import javafx.scene.control.*
-import tornadofx.*
+import javafx.scene.control.Button
+import javafx.scene.control.TextField
+import javafx.scene.control.TreeTableColumn
+import javafx.scene.control.TreeTableView
 import javafx.scene.layout.AnchorPane
 import javafx.stage.FileChooser
+import tornadofx.*
 
 class Parsing : View() {
     override val root: AnchorPane by fxml()
@@ -35,6 +38,11 @@ class Parsing : View() {
 
             fillTree()
         }
+
+        //test
+        path.text = "/Users/olegdubrovin/Yandex.Disk.localized/Загрузки/access.log"
+        fillTree()
+
 
     }
 

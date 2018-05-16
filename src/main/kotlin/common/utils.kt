@@ -49,34 +49,55 @@ fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<St
         val lineMonth = lineYear?.get(month)
 
         if (lineMonth != null && !lineMonth.containsKey(day)) lineMonth.put(day, HashMap<String?, Any>())
-        val lineDay = lineMonth?.get(day)
+        val lineDay = lineMonth?.get(day) as HashMap<String?, Any>
 
         val collectionContent = contentStr.split("/")
 
-        if (collectionContent.size>=6) {
+      if (collectionContent.size>=6) {
 
-            var previousBranch = HashMap<String?, Any>()
+          var previousBranch = HashMap<String, Any>()
+          val amountIteration = collectionContent.size-2
 
+          for (n in 3..amountIteration) {
 
-            for (n in 2..collectionContent.size - 2) {
+              val currentValue = collectionContent.get(n)
 
-                if (n == 3) {
+              when (n){
+                  3 ->{
+                      //First iteration
+                      previousBranch = if (lineDay.containsKey(currentValue)){
+                          lineDay.get(currentValue)
+                      }else{
+                          val currentBranch = HashMap<String, Any>()
+                          lineDay.put(currentValue, currentBranch)
+                          currentBranch
+                      } as HashMap<String, Any>
 
-                    val lineData = lineDay as HashMap<String?, Any>
-                    lineData.put(collectionContent.get(n), previousBranch)
+                  }
+                  amountIteration ->{
+                      //It final iteration! Final element contain key and counter of calling
+                      if (previousBranch.containsKey(currentValue)) {
+                          var previousCounter = previousBranch.get(currentValue) as Int
+                          previousBranch.put(currentValue, previousCounter+1)
+                      } else {
+                          val currentCounter = 1 as Int
+                          previousBranch.put(currentValue, currentCounter)
+                      }
+                  }
 
+                  else ->{
+                      val currentBranch =  if (previousBranch.containsKey(currentValue)){
+                          previousBranch.get(currentValue) as HashMap<String, Any>
+                      } else {
+                          val currentBranchTemp = HashMap<String, Any>()
+                          previousBranch.put(currentValue, currentBranchTemp)
+                          currentBranchTemp
+                      }
+                      previousBranch = currentBranch
 
-                } else {
-
-                    val newBranch = HashMap<String?, Any>()
-
-                    previousBranch.put(collectionContent.get(n), newBranch)
-                    previousBranch = newBranch
-
-                }
-
-
-            }
+                  }
+              }
+          }
         }
     }
 
@@ -94,11 +115,11 @@ fun treeScanDown(key: Any, treeData: Map<*, *>, rootNode: TreeItem<LineTree>){
     //Спустимся вниз в кроличью нору
     if (treeData.get(key) is HashMap<*,*>) {
         val value =  treeData.get(key) as HashMap<String?, *>
-        setUpAmountRescan(value,line, rootNode)
+       // setUpAmountRescan(value,line, rootNode)
         for (i in value.keys) treeScanDown(i!!, value, lineNode)
     } else {
         val value =  treeData.get(key) as TreeMap<Int, *>
-        setUpAmountRescan(value,line, rootNode)
+       // setUpAmountRescan(value,line, rootNode)
         for (i in value.keys) treeScanDown(i!!, value, lineNode)
     }
 
