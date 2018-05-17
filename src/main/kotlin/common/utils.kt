@@ -105,38 +105,31 @@ fun recoverMainBranch(contentStr: String?, treeData: HashMap<String?, HashMap<St
 
 fun treeScanDown(key: Any, treeData: Map<*, *>, rootNode: TreeItem<LineTree>){
 
+    val currentValue = treeData.get(key)
 
-    val line = LineTree(if (key is String ) key else key.toString(), 0)
+    val line = LineTree(if (key is String ) key else key.toString(), if (currentValue is Int) currentValue else 0)
     val lineNode = TreeItem(line)
     rootNode.children.add(lineNode)
 
     //На каждой итерации возвращаемся вверх и пересчитываем итоги
 
     //Спустимся вниз в кроличью нору
-    if (treeData.get(key) is HashMap<*,*>) {
-        val value =  treeData.get(key) as HashMap<String?, *>
-       // setUpAmountRescan(value,line, rootNode)
-        for (i in value.keys) treeScanDown(i!!, value, lineNode)
-    } else {
-        val value =  treeData.get(key) as TreeMap<Int, *>
-       // setUpAmountRescan(value,line, rootNode)
-        for (i in value.keys) treeScanDown(i!!, value, lineNode)
+
+
+    if(currentValue is Map<*,*>) {
+        for (i in currentValue.keys) treeScanDown(i!!, currentValue, lineNode)
+    }
+
+    //if Int to going rescan up!
+    if (currentValue is Int) {
+        treeScanUp(currentValue, rootNode)
     }
 
 }
 
- fun treeScanUp(rootNode: TreeItem<LineTree>){
+fun treeScanUp(addValue: Int, rootNode: TreeItem<LineTree>){
 
-     rootNode.value.amount +=1
+    rootNode.value.amount += addValue
 
-     if (rootNode.parent!=null) treeScanUp(rootNode.parent)
- }
-
-fun setUpAmountRescan(value:Map<*,*>, line:LineTree, rootNode: TreeItem<LineTree>){
-    if (value.keys.isEmpty()) {
-        line.amount = 1
-        treeScanUp(rootNode)
-    }
+    if (rootNode.parent!=null) treeScanUp(addValue, rootNode.parent)
 }
-
-
